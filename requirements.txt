@@ -1,0 +1,17 @@
+backports.shutil-get-terminal-size==1.0.0
+bottlenose==0.6.3
+decorator==4.0.9
+ipython==4.2.0
+ipython-genutils==0.1.0
+lxml==3.6.0
+pathlib2==2.1.0
+pexpect==4.0.1
+pickleshare==0.7.2
+ptyprocess==0.5.1
+python-amazon-simple-product-api==2.1.0
+python-dateutil==2.5.3
+requests==2.9.1
+simplegeneric==0.8.1
+six==1.10.0
+SQLAlchemy==1.0.12
+traitlets==4.2.1

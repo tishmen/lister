@@ -4,21 +4,25 @@ import requests
 
 from amazon.api import AmazonAPI
 
+headers = {
+    'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; FSL 7.0.'
+                  '6.01001)'
+}
+
 ACCESS_KEY = 'AKIAIZQJXTP3ERDEEQPQ'
 SECRET_KEY = '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'
 ASSOCIATE_TAG = 'tishmen-20'
 
 amazon = AmazonAPI(ACCESS_KEY, SECRET_KEY, ASSOCIATE_TAG)
-
 seen = set()
 
 
 def scrape_suggested_keywords(keyword):
-    print('Scraping suggested keywords for keyword {}'.format(keyword))
+    print('Scraping suggested keywords for {}'.format(keyword))
     url = 'http://completion.amazon.com/search/complete?mkt=1&search-alias=ap'\
         's&q={}'.format(quote(keyword))
     try:
-        response = requests.get(url, )
+        response = requests.get(url, headers=headers)
         keywords = response.json()[1]
         print('Got {} keyword suggestions'.format(len(keywords)))
         return keywords
@@ -30,7 +34,7 @@ def scrape_suggested_keywords(keyword):
 def search_products(keyword):
     print('Searching for products by keyword {}'.format(keyword))
     try:
-        result = amazon.search(Keywords=keyword, SearchIndex='All')
+        products = amazon.search(Keywords=keyword, SearchIndex='All')
         for product in products:
             product.app
         asins = [p.asin for p in products]
