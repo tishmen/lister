@@ -1,0 +1,30 @@
+<h1><strong>{{ title }}</strong></h1>
+{% if description %}
+<br>
+<h2><strong>Product Description:</strong></h2>
+{% for text in description %}
+<p>{{ text }}</p>
+{% endfor %}
+{% endif %}
+{% if features %}
+<br>
+<h2><strong>Features:</strong></h2>
+{% for text in features %}
+<p>{{ text }}</p>
+{% endfor %}
+{% endif %}
+<br>
+<h2><strong>Shipping / Return Policies (Balanced):</strong></h2>
+<h3><strong>Shipping Policies:</strong></h3>
+<p>We ship to the Lower 48 States only (Does NOT include Hawaii or Alaska)</p>
+<p>We cannot ship to PO Boxes/APO's</p>
+<p>We cannot combine shipping.</p>
+<p>No Local Pickup.</p>
+<p>All items will be shipped directly to you from our supplier within 1-3 business days. Most items are delivered within 3-5 business days, however, please allow 3-10 business days.</p>
+<p>All items are in stock when they are listed. Inventory is tracked and updated regularly. However, if demand exceeds our supply, we will give the customer the following options: Full refund. Have the item back ordered and shipped when it becomes available. We will offer other items in similar style and quality. Your bid purchase of the item implies you agree to this policy.</p>
+<p>If you have a question about a product not otherwise answered in the item description, please contact us via eBay messages first and allow us the opportunity to help you and be sure we have what you're looking for.</p>
+<h3><strong>Exchange/Return Policy:</strong></h3>
+<p>Your satisfaction is guaranteed! If for any reason you are unhappy with your item, just return it within 14 days for a full refund, minus shipping cost. Please contact us prior to initiating a return so that we can issue you a refund authorization.</p>
+<h3><strong>Payment Policy</strong></h3>
+<p>We require Immediate Payment. Must be an authorized address.</p>
+<p>Thank you for viewing the {{ title }}</p>
