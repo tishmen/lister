@@ -1,7 +1,7 @@
 import os
 
 from io import BytesIO
-from urllib.parse import unquote_plus
+from urllib import unquote_plus
 
 import requests
 
