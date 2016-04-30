@@ -56,7 +56,7 @@ SEARCH_INDEX = [
 PERCENTAGE_MARKUP = 1.5
 
 IMAGE_DIR = os.path.join(os.getcwd(), 'images')
-IMAGE_URL = '45.55.207.40/images/{}'
+IMAGE_URL = '45.55.207.40:10000/images/{}'
 
 
 def get_amazon_product_price(link):
