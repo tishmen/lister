@@ -191,6 +191,7 @@ def get_ebay_html(product, title):
 def list_ebay_product(product):
     upc = UPC.random(session)
     title = get_ebay_title(product)
+    image = get_ebay_image(product)
     item = {
         'Item': {
             'Title': title,
@@ -209,7 +210,7 @@ def list_ebay_product(product):
             'Location': 'Los Angeles, CA',
             'PaymentMethods': 'PayPal',
             'PayPalEmailAddress': 'joshwardini@gmail.com',
-            'PictureDetails': {'PictureURL': get_ebay_image(product)},
+            'PictureDetails': {'PictureURL': image},
             'ItemSpecifics': {
                 'NameValueList': [
                     {'Name': 'Brand', 'Value': product['brand']},
