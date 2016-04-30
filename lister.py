@@ -204,7 +204,7 @@ def update_ebay_product_price(item_id, amazon_price):
 
 
 def list_ebay_product(product):
-    upc = UPC.random()
+    upc = UPC.random(session)
     title = get_ebay_title(product)
     item = {
         'Item': {

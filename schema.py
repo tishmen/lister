@@ -31,7 +31,7 @@ class UPC(Base):
         available = session.query(cls).filter_by(available=True)
         upc = available.order_by(func.random()).first()
         if not upc:
-            raise('Please add new UPCs to the database!')
+            raise Exception('Please add new UPCs to the database!')
 
     def __repr__(self):
         return '<UPC {}>'.format(self.upc)
