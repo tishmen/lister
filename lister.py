@@ -192,6 +192,7 @@ def list_ebay_product(product):
     upc = UPC.random(session)
     title = get_ebay_title(product)
     image = get_ebay_image(product)
+    print(image)
     item = {
         'Item': {
             'Title': title,
