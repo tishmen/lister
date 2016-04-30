@@ -42,8 +42,6 @@ sandbox = Connection(
     config_file=None
 )
 
-PERCENTAGE_MARKUP = 1.5
-
 SEARCH_INDEX = [
     'All', 'UnboxVideo', 'Appliances', 'MobileApps', 'ArtsAndCrafts',
     'Automotive', 'Baby', 'Beauty', 'Books', 'Music', 'Wireless', 'Fashion'
@@ -54,6 +52,8 @@ SEARCH_INDEX = [
     'LawnAndGarden', 'PetSupplies', 'Pantry', 'Software', 'SportingGoods',
     'Tools', 'Toys', 'VideoGames', 'Wine'
 ]
+
+PERCENTAGE_MARKUP = 1.5
 
 IMAGE_DIR = os.path.join(os.getcwd(), 'images')
 IMAGE_URL = '45.55.207.40/images/{}'
