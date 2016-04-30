@@ -158,9 +158,9 @@ def get_ebay_category(product):
 
 def get_ebay_image(product):
     path = os.path.join(IMAGE_DIR, product['image'])
-    url = IMAGE_URL.format(product['image'])
+    return_val = list(IMAGE_URL.format(product['image']))
     if os.path.exists(path):
-        return url
+        return return_val
     response = requests.get(
         'http://ecx.images-amazon.com/images/I/{}'.format(product['image'])
     )
@@ -175,7 +175,7 @@ def get_ebay_image(product):
     white = Image.new('RGBA', (500, 500), (255, 255, 255, 255))
     white.paste(image, (x, y))
     white.save(path)
-    return url
+    return return_val
 
 
 def get_ebay_html(product, title):
@@ -209,7 +209,9 @@ def list_ebay_product(product):
             'Location': 'Los Angeles, CA',
             'PaymentMethods': 'PayPal',
             'PayPalEmailAddress': 'joshwardini@gmail.com',
-            'PictureDetails': {'PictureURL': get_ebay_image(product)},
+            'PictureDetails': {
+                'PictureURL': [get_ebay_image(product)]
+            },
             'ItemSpecifics': {
                 'NameValueList': [
                     {'Name': 'Brand', 'Value': product['brand']},
