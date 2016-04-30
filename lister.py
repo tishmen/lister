@@ -59,11 +59,6 @@ IMAGE_DIR = os.path.join(os.getcwd(), 'images')
 IMAGE_URL = '45.55.207.40:10000/images/{}'
 
 
-def get_amazon_product_price(asin):
-    product = amazon.lookup(ItemId=asin)
-    return product.price_and_currency[0] or 0
-
-
 def get_amazon_products():
     keyword = raw_input('Please input Amazon search keyword: ')
     for i, search_index in enumerate(SEARCH_INDEX):
@@ -193,16 +188,6 @@ def get_ebay_html(product, title):
     return html.replace('\n', '')
 
 
-def update_ebay_product_price(item_id, amazon_price):
-    item = {
-        'Item': {
-            'ItemID': item_id,
-            'StartPrice': amazon_price * PERCENTAGE_MARKUP
-        }
-    }
-    sandbox.execute('ReviseItem', item)
-
-
 def list_ebay_product(product):
     upc = UPC.random(session)
     title = get_ebay_title(product)
@@ -268,10 +253,17 @@ def list_ebay_product(product):
     print('Ebay product: {}'.format(url))
 
 
-def update_products():
+def update_ebay_products():
     for link in session.query(Link).all():
-        amazon_price = get_amazon_product_price()
-        update_ebay_product_price(link.ebay, amazon_price)
+        product = amazon.lookup(ItemId=link.amazon)
+        price = product.price_and_currency[0] or 0
+        item = {
+            'Item': {
+                'ItemID': link.ebay,
+                'StartPrice': price * PERCENTAGE_MARKUP
+            }
+        }
+        sandbox.execute('ReviseItem', item)
 
 
 if __name__ == '__main__':
