@@ -1,5 +1,5 @@
 *.pyc
-images
+image
 *sublime*
 secrets.py
 sqlite3.db
