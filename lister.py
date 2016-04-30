@@ -59,8 +59,8 @@ IMAGE_DIR = os.path.join(os.getcwd(), 'images')
 IMAGE_URL = '45.55.207.40:10000/images/{}'
 
 
-def get_amazon_product_price(link):
-    product = amazon.lookup(ItemId=link.amazon)
+def get_amazon_product_price(asin):
+    product = amazon.lookup(ItemId=asin)
     return product.price_and_currency[0] or 0
 
 
@@ -72,9 +72,8 @@ def get_amazon_products():
     text = 'Please select Amazon search index: ({}) '.format(default)
     index = input(text) or default
     index = SEARCH_INDEX[index]
-    response = list(amazon.search(Keywords=keyword, SearchIndex=index))
     products = []
-    for product in response:
+    for product in amazon.search(Keywords=keyword, SearchIndex=index):
         asin = product.asin
         if not asin or session.query(Link).filter_by(amazon=asin).count():
             continue
@@ -95,7 +94,7 @@ def get_amazon_products():
         if price < 50:
             continue
         soup = BeautifulSoup(product.editorial_review or '', 'html.parser')
-        description = soup.stripped_strings
+        description = list(soup.stripped_strings)
         if not description:
             continue
         features = product.features
@@ -175,19 +174,19 @@ def get_ebay_image(product):
     x = 0
     y = 0
     if width < 500:
-        x = round((500 - width) / 2)
+        x = int(round((500 - width) / 2))
     if height < 500:
-        y = round((500 - height) / 2)
+        y = int(round((500 - height) / 2))
     white = Image.new('RGBA', (500, 500), (255, 255, 255, 255))
     white.paste(image, (x, y))
     white.save(path)
     return url
 
 
-def get_ebay_html(product):
+def get_ebay_html(product, title):
     env = Environment(loader=FileSystemLoader('.'), trim_blocks=True)
     html = env.get_template('template.html').render(
-        title=product['title'],
+        title=title,
         description=product['description'],
         features=product['features']
     )
@@ -206,10 +205,13 @@ def update_ebay_product_price(item_id, amazon_price):
 
 def list_ebay_product(product):
     upc = UPC.random()
+    title = get_ebay_title(product)
     item = {
         'Item': {
-            'Title': get_ebay_title(product),
-            'Description': u'<![CDATA[{}]]>'.format(get_ebay_html(product)),
+            'Title': title,
+            'Description': u'<![CDATA[{}]]>'.format(
+                get_ebay_html(product, title)
+            ),
             'PrimaryCategory': {'CategoryID': get_ebay_category(product)},
             'StartPrice': str(product['price'] * PERCENTAGE_MARKUP),
             'CategoryMappingAllowed': 'true',
@@ -266,12 +268,12 @@ def list_ebay_product(product):
     print('Ebay product: {}'.format(url))
 
 
-def list():
+def list_products():
     for product in get_amazon_products():
         list_ebay_product(product)
 
 
-def update():
+def update_products():
     for link in session.query(Link).all():
         amazon_price = get_amazon_product_price()
         update_ebay_product_price(link.ebay, amazon_price)
