@@ -268,12 +268,12 @@ def list_ebay_product(product):
     print('Ebay product: {}'.format(url))
 
 
-def list_products():
-    for product in get_amazon_products():
-        list_ebay_product(product)
-
-
 def update_products():
     for link in session.query(Link).all():
         amazon_price = get_amazon_product_price()
         update_ebay_product_price(link.ebay, amazon_price)
+
+
+if __name__ == '__main__':
+    for product in get_amazon_products():
+        list_ebay_product(product)
