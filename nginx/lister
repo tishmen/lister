@@ -1,8 +1,8 @@
 server {
-    listen 10000;
+    listen 80;
     server_name 45.55.207.40;
 
-    location /images/ {
-        alias /home/milan/lister/images/;
+    location /image/ {
+        alias /home/milan/lister/image/;
     }
 }
