@@ -158,7 +158,7 @@ def get_ebay_category(product):
 
 def get_ebay_image(product):
     path = os.path.join(IMAGE_DIR, product['image'])
-    return_val = list(IMAGE_URL.format(product['image']))
+    return_val = [IMAGE_URL.format(product['image'])]
     if os.path.exists(path):
         return return_val
     response = requests.get(
@@ -210,7 +210,7 @@ def list_ebay_product(product):
             'PaymentMethods': 'PayPal',
             'PayPalEmailAddress': 'joshwardini@gmail.com',
             'PictureDetails': {
-                'PictureURL': [get_ebay_image(product)]
+                'PictureURL': get_ebay_image(product)
             },
             'ItemSpecifics': {
                 'NameValueList': [
