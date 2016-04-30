@@ -69,14 +69,14 @@ def get_amazon_products():
     for i, search_index in enumerate(SEARCH_INDEX):
         print('{}. {}'.format(i, search_index))
     default = 0
-    text = 'Please select Amazon search index: ({})'.format(default)
+    text = 'Please select Amazon search index: ({}) '.format(default)
     index = input(text) or default
     index = SEARCH_INDEX[index]
     response = list(amazon.search(Keywords=keyword, SearchIndex=index))
     products = []
     for product in response:
         asin = product.asin
-        if not asin or not session.query(Link).filter_by(amazon=asin).count():
+        if not asin or session.query(Link).filter_by(amazon=asin).count():
             continue
         title = product.title
         if not title:
@@ -128,7 +128,7 @@ def get_ebay_title(product):
     )
     while True:
         default = product['title']
-        text = 'Char count {}. Please input eBay title: ({})'.format(
+        text = 'Char count {}. Please input eBay title: ({}) '.format(
             len(default), default
         )
         title = input(text) or default
@@ -139,7 +139,7 @@ def get_ebay_title(product):
 
 def get_ebay_category(product):
     while True:
-        text = 'Please input eBay category search ({}): '.format(
+        text = 'Please input eBay category search: ({}) '.format(
             product['category']
         )
         search = input(text) or product['category']
@@ -153,7 +153,7 @@ def get_ebay_category(product):
             print('{}. {}'.format(cat_id, name))
         default = response['SuggestedCategoryArray']['SuggestedCategory'][0]
         default = default['Category']['CategoryID']
-        text = 'Please input eBay category id or . to retry: ({})'.format(
+        text = 'Please input eBay category id or . to retry: ({}) '.format(
             default
         )
         category = input(text) or default
