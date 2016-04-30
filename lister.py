@@ -65,12 +65,12 @@ def get_amazon_product_price(asin):
 
 
 def get_amazon_products():
-    keyword = input('Please input Amazon search keyword: ')
+    keyword = raw_input('Please input Amazon search keyword: ')
     for i, search_index in enumerate(SEARCH_INDEX):
         print('{}. {}'.format(i, search_index))
     default = 0
     text = 'Please select Amazon search index: ({}) '.format(default)
-    index = input(text) or default
+    index = int(raw_input(text)) or default
     index = SEARCH_INDEX[index]
     products = []
     for product in amazon.search(Keywords=keyword, SearchIndex=index):
@@ -130,7 +130,7 @@ def get_ebay_title(product):
         text = 'Char count {}. Please input eBay title: ({}) '.format(
             len(default), default
         )
-        title = input(text) or default
+        title = raw_input(text) or default
         if 75 <= len(title) <= 80:
             return title
         print('Title character count must be between 75 and 80 characters!')
@@ -141,7 +141,7 @@ def get_ebay_category(product):
         text = 'Please input eBay category search: ({}) '.format(
             product['category']
         )
-        search = input(text) or product['category']
+        search = raw_input(text) or product['category']
         response = production.execute(
             'GetSuggestedCategories', {'Query': search}
         )
@@ -155,7 +155,7 @@ def get_ebay_category(product):
         text = 'Please input eBay category id or . to retry: ({}) '.format(
             default
         )
-        category = input(text) or default
+        category = raw_input(text) or default
         if category == '.':
             continue
         return category
