@@ -158,9 +158,8 @@ def get_ebay_category(product):
 
 def get_ebay_image(product):
     path = os.path.join(IMAGE_DIR, product['image'])
-    url = IMAGE_URL.format(product['image'])
     if os.path.exists(path):
-        return url
+        return
     response = requests.get(
         'http://ecx.images-amazon.com/images/I/{}'.format(product['image'])
     )
@@ -175,7 +174,6 @@ def get_ebay_image(product):
     white = Image.new('RGBA', (500, 500), (255, 255, 255, 255))
     white.paste(image, (x, y))
     white.save(path)
-    return url
 
 
 def get_ebay_html(product, title):
@@ -190,9 +188,8 @@ def get_ebay_html(product, title):
 
 def list_ebay_product(product):
     upc = UPC.random(session)
+    get_ebay_image(product)
     title = get_ebay_title(product)
-    image = get_ebay_image(product)
-    print(image)
     item = {
         'Item': {
             'Title': title,
@@ -211,7 +208,9 @@ def list_ebay_product(product):
             'Location': 'Los Angeles, CA',
             'PaymentMethods': 'PayPal',
             'PayPalEmailAddress': 'joshwardini@gmail.com',
-            'PictureDetails': {'PictureURL': image},
+            'PictureDetails': {
+                'PictureURL': IMAGE_URL.format(product['image'])
+            },
             'ItemSpecifics': {
                 'NameValueList': [
                     {'Name': 'Brand', 'Value': product['brand']},
@@ -253,19 +252,6 @@ def list_ebay_product(product):
     url = 'http://cgi.sandbox.ebay.com/ws/eBayISAPI.dll?ViewItem&item={}&ssPa'\
         'geName=STRK:MESELX:IT'.format(item_id)
     print('Ebay product: {}'.format(url))
-
-
-def update_ebay_products():
-    for link in session.query(Link).all():
-        product = amazon.lookup(ItemId=link.amazon)
-        price = product.price_and_currency[0] or 0
-        item = {
-            'Item': {
-                'ItemID': link.ebay,
-                'StartPrice': price * PERCENTAGE_MARKUP
-            }
-        }
-        sandbox.execute('ReviseItem', item)
 
 
 if __name__ == '__main__':
